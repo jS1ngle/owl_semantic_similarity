@@ -4,6 +4,26 @@ onto = get_ontology("file://pizza.owl").load()
 pizza = get_namespace("http://www.co-ode.org/ontologies/pizza/pizza.owl#")
 
 
+def get_jaccard_similarity(set_a, set_b):
+    r"""
+    Get Jaccard similarity
+    Parameters
+    ----------
+    set_a : set of OWL classes
+    set_b : set of OWL class
+    Returns
+    -------
+    similarity : int [0..1]
+    Notes
+    J(A,B) = |intersection(A,B)| / |union(A,B)|
+    -----
+    """
+    intersection_set = set(set_a).intersection(set_b)
+    union_set = set_a.union(set_b)
+    similarity = len(intersection_set) / len(union_set)
+    return similarity
+
+
 def get_lowest_common_ancestor(class_a, class_b):
     r"""
     Get lowest common ancestor (common ancestor with greatest depth)
@@ -98,5 +118,10 @@ if __name__ == '__main__':
 
     # determine lca
     lca = get_lowest_common_ancestor(a, b)
+
+    # similarities
+    set_a = a.ancestors()
+    set_b = b.ancestors()
+    jaccard_similarity = get_jaccard_similarity(set_a, set_b)
 
     properties_of_a = a.get_class_properties()
