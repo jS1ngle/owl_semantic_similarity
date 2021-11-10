@@ -4,6 +4,7 @@ This repo is intended to provide methods to determine ontology-based semantic si
 
 * Lowest Common Ancestor (LCA)
 * Jaccard Similarity 
+* Tversky Similarity
 * more to come ...
 
 Among other things, the [pizza.owl][1] ontology is used to test and demonstrate ideas. 
