@@ -4,6 +4,27 @@ onto = get_ontology("file://pizza.owl").load()
 pizza = get_namespace("http://www.co-ode.org/ontologies/pizza/pizza.owl#")
 
 
+def get_tversky_similarity(set_a, set_b, alpha=1, beta=1):
+    r"""
+    Get Tversky similarity
+    Parameters
+    ----------
+    set_a : set of OWL classes
+    set_b : set of OWL class
+    Returns
+    -------
+    similarity : int [0..1]
+    Notes
+    https://en.wikipedia.org/wiki/Tversky_index
+    -----
+    """
+    intersection_set = set(set_a).intersection(set_b)
+    difference_ab = set_a - set_b
+    difference_ba = set_b - set_a
+    similarity = len(intersection_set) / (len(intersection_set) + alpha * len(difference_ab) + beta * len(difference_ba))
+    return similarity
+
+
 def get_jaccard_similarity(set_a, set_b):
     r"""
     Get Jaccard similarity
@@ -123,5 +144,5 @@ if __name__ == '__main__':
     set_a = a.ancestors()
     set_b = b.ancestors()
     jaccard_similarity = get_jaccard_similarity(set_a, set_b)
+    tversky_similarity = get_tversky_similarity(set_a, set_b, alpha=0.5, beta=0.5)
 
-    properties_of_a = a.get_class_properties()
